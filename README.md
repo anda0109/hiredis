@@ -98,6 +98,14 @@ anywhere in an argument:
 reply = redisCommand(context, "SET key:%s %s", myid, value);
 ```
 
+分布式锁：
+```c
+//lock test
+reply = (redisReply*)redisCommand(c,"SET lock %s NX EX 5", value);
+printf("SET lock locked NX EX 5: %s\n", reply->str);
+freeReplyObject(reply);
+```
+
 ### Using replies
 
 The return value of `redisCommand` holds a reply when the command was

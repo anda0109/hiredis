@@ -101,7 +101,9 @@ reply = redisCommand(context, "SET key:%s %s", myid, value);
 分布式锁：
 ```c
 //lock test
-reply = (redisReply*)redisCommand(c,"SET lock %s NX EX 5", value);
+string lock_value = "locked";
+int timeout = 5;//当前锁的最大生存时间(秒)，必须大于0，超过生存时间系统会自动强制释放锁
+reply = (redisReply*)redisCommand(c,"SET lock %s NX EX %d", lock_value, timeout);
 printf("SET lock locked NX EX 5: %s\n", reply->str);
 freeReplyObject(reply);
 ```
